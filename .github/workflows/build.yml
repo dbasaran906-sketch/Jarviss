@@ -20,11 +20,11 @@ jobs:
           mkdir -p workspace
           ZIP=$(find . -maxdepth 3 -name "*.zip" | head -n 1)
           if [ -n "$ZIP" ]; then
-            echo "Found ZIP archive: $ZIP"
             unzip -q "$ZIP" -d workspace
           else
             cp -r ./* workspace/ 2>/dev/null || true
           fi
+          find workspace -name "*.kt" -exec sed -i 's/Regex("\\\[CMD:.\*?\\\]")/Regex("\\\\[CMD:.*?\\\\]")/g' {} +
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
